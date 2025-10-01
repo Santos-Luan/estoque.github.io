@@ -1,0 +1,11 @@
+POST https://script.google.com/macros/s/AKfycbyICqJbsJd02kin_Gyh9iqOJmmBZvQsByCCBlcNzUjTsmZrv3TNu7wHLQDyRDWtpZ1e/exec
+Content-Type: application/json
+
+{
+  "action": "addProduct",
+  "codigo": "P001",
+  "produto": "Arroz",
+  "quantidade": 10,
+  "preco": 5,
+  "minimo": 2
+}

@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="utf-8">
+  <title>Registrar Movimentação</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <header>
+    <h1>Registrar Movimentação</h1>
+  </header>
+
+  <nav>
+    <a href="index.html">🏠 Início</a>
+    <a href="produtos.html">➕ Cadastro</a>
+    <a href="movimentacao.html">🔄 Movimentação</a>
+    <a href="estoque.html">📋 Estoque</a>
+    <a href="historico.html">📑 Histórico</a>
+  </nav>
+  <hr>
+
+  <main class="container">
+    <section class="card">
+      <h2>Entrada / Saída</h2>
+      <form id="move-form">
+        <label>Código: <input type="text" id="m-codigo" required></label>
+        <label>Tipo:
+          <select id="m-type">
+            <option value="entrada">Entrada</option>
+            <option value="saida">Saída</option>
+          </select>
+        </label>
+        <label>Quantidade: <input type="number" id="m-quantidade" value="1"></label>
+        <label>Origem/Destino: <input type="text" id="m-origem"></label>
+        <label>Observações: <input type="text" id="m-obs"></label>
+        <button type="submit" class="btn">Registrar Movimentação</button>
+      </form>
+      <p id="msg-move" class="muted"></p>
+    </section>
+  </main>
+
+  <footer>
+    <p class="muted">Protótipo de controle de estoque</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

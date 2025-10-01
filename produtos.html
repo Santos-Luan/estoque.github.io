@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="utf-8">
+  <title>Cadastro de Produto</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <header>
+    <h1>Cadastro de Produto</h1>
+  </header>
+
+  <nav>
+    <a href="index.html">🏠 Início</a>
+    <a href="produtos.html">➕ Cadastro</a>
+    <a href="movimentacao.html">🔄 Movimentação</a>
+    <a href="estoque.html">📋 Estoque</a>
+    <a href="historico.html">📑 Histórico</a>
+  </nav>
+  <hr>
+
+  <main class="container">
+    <section class="card">
+      <h2>Novo Produto</h2>
+      <form id="add-product-form">
+        <label>Código: <input type="text" id="p-codigo" required></label>
+        <label>Produto: <input type="text" id="p-nome" required></label>
+        <label>Quantidade inicial: <input type="number" id="p-quantidade" value="0"></label>
+        <label>Preço unitário: <input type="number" id="p-preco" step="0.01" value="0"></label>
+        <label>Quantidade mínima (alerta): <input type="number" id="p-minimo" value="0"></label>
+        <button type="submit" class="btn">Cadastrar Produto</button>
+      </form>
+      <p id="msg-add" class="muted"></p>
+    </section>
+  </main>
+
+  <footer>
+    <p class="muted">Protótipo de controle de estoque</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
