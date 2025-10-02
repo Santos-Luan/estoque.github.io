@@ -5,6 +5,31 @@
   <meta charset="utf-8">
   <title>Histórico de Movimentações</title>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    .search-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .search-bar label {
+      margin-right: 5px;
+      font-weight: bold;
+    }
+
+    .search-bar input[type="text"],
+    .search-bar input[type="date"] {
+      padding: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .search-bar button {
+      padding: 6px 12px;
+    }
+  </style>
 </head>
 
 <body>
@@ -13,38 +38,56 @@
   </header>
 
   <nav>
-    <a href="index.html">🏠 Início</a>
-    <a href="produtos.html">➕ Cadastro</a>
-    <a href="movimentacao.html">🔄 Movimentação</a>
-    <a href="estoque.html">📋 Estoque</a>
-    <a href="historico.html">📑 Histórico</a>
+    <a href="index.html">Início</a>
+    <a href="produtos.html">Cadastro</a>
+    <a href="movimentacao.html">Movimentação</a>
+    <a href="estoque.html">Estoque</a>
+    <a href="historico.html">Histórico</a>
   </nav>
-  <hr>
 
   <main class="container">
     <section class="card">
       <h2>Últimos Registros</h2>
-      <button id="btn-refresh-mov" class="btn">🔄 Atualizar</button>
 
-      <table id="mov-table">
-        <thead>
-          <tr>
-            <th>Timestamp</th>
-            <th>Código</th>
-            <th>Tipo</th>
-            <th>Quantidade</th>
-            <th>Origem/Destino</th>
-            <th>Observações</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-      <p id="msg-mov" class="muted"></p>
+      <div class="search-bar">
+        <input type="text" id="search-historico" placeholder="Pesquisar por código ou nome...">
+
+        <label for="f-data-inicio">Data inicial:</label>
+        <input type="date" id="f-data-inicio">
+
+        <label for="f-data-fim">Data final:</label>
+        <input type="date" id="f-data-fim">
+
+        <button id="btn-filter-date" class="btn-search">Filtrar</button>
+        <button id="btn-clear-historico" class="link-reset">Limpar</button>
+      </div>
+
+      <div class="actions">
+        <button id="btn-refresh-mov" class="btn">Atualizar histórico</button>
+      </div>
+
+      <div class="table-wrap">
+        <table id="mov-table">
+          <thead>
+            <tr>
+              <th>Timestamp</th>
+              <th>Código</th>
+              <th>Produto</th>
+              <th>Tipo</th>
+              <th>Quantidade</th>
+              <th>Origem/Destino</th>
+              <th>Observações</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p id="msg-mov" class="message"></p>
     </section>
   </main>
 
   <footer>
-    <p class="muted">Protótipo de controle de estoque</p>
+    <p class="muted">Projeto extensionista • Controle de estoque</p>
   </footer>
 
   <script src="script.js"></script>

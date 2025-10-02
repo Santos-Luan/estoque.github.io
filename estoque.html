@@ -13,40 +13,51 @@
   </header>
 
   <nav>
-    <a href="index.html">🏠 Início</a>
-    <a href="produtos.html">➕ Cadastro</a>
-    <a href="movimentacao.html">🔄 Movimentação</a>
-    <a href="estoque.html">📋 Estoque</a>
-    <a href="historico.html">📑 Histórico</a>
+    <a href="index.html">Início</a>
+    <a href="produtos.html">Cadastro</a>
+    <a href="movimentacao.html">Movimentação</a>
+    <a href="estoque.html">Estoque</a>
+    <a href="historico.html">Histórico</a>
   </nav>
-  <hr>
 
   <main class="container">
     <section class="card">
       <h2>Lista de Produtos</h2>
-      <button id="btn-refresh" class="btn">🔄 Atualizar</button>
-      <button id="btn-delete" class="btn">🗑 Excluir Selecionados</button>
 
-      <table id="products-table">
-        <thead>
-          <tr>
-            <th>Excluir</th>
-            <th>Código</th>
-            <th>Produto</th>
-            <th>Quantidade</th>
-            <th>Preço</th>
-            <th>Última Atualização</th>
-            <th>Mínimo</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-      <p id="msg-list" class="muted"></p>
+      <div class="search-bar">
+        <input type="text" id="search-input" placeholder="Pesquisar por código ou nome...">
+        <button id="btn-search" class="btn-search">Pesquisar</button>
+        <button id="btn-clear" class="link-reset">Limpar</button>
+      </div>
+
+      <div class="actions">
+        <input type="password" id="senha-excluir" placeholder="Senha para excluir produtos">
+        <button id="btn-delete" class="btn orange">Excluir Selecionados</button>
+        <button id="btn-refresh" class="btn">Atualizar lista</button>
+      </div>
+
+      <div class="table-wrap">
+        <table id="products-table">
+          <thead>
+            <tr>
+              <th class="table-checkbox">Sel</th>
+              <th>Código</th>
+              <th>Produto</th>
+              <th>Quantidade</th>
+              <th>Preço</th>
+              <th>Última Atualização</th>
+              <th>Mínimo</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p id="msg-list" class="message"></p>
     </section>
   </main>
 
   <footer>
-    <p class="muted">Protótipo de controle de estoque</p>
+    <p class="muted">Projeto extensionista • Controle de estoque</p>
   </footer>
 
   <script src="script.js"></script>

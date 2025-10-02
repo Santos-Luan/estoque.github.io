@@ -13,36 +13,48 @@
   </header>
 
   <nav>
-    <a href="index.html">🏠 Início</a>
-    <a href="produtos.html">➕ Cadastro</a>
-    <a href="movimentacao.html">🔄 Movimentação</a>
-    <a href="estoque.html">📋 Estoque</a>
-    <a href="historico.html">📑 Histórico</a>
+    <a href="index.html">Início</a>
+    <a href="produtos.html">Cadastro</a>
+    <a href="movimentacao.html">Movimentação</a>
+    <a href="estoque.html">Estoque</a>
+    <a href="historico.html">Histórico</a>
   </nav>
-  <hr>
 
   <main class="container">
     <section class="card">
-      <h2>Entrada / Saída</h2>
-      <form id="move-form">
-        <label>Código: <input type="text" id="m-codigo" required></label>
-        <label>Tipo:
-          <select id="m-type">
-            <option value="entrada">Entrada</option>
-            <option value="saida">Saída</option>
-          </select>
-        </label>
-        <label>Quantidade: <input type="number" id="m-quantidade" value="1"></label>
-        <label>Origem/Destino: <input type="text" id="m-origem"></label>
-        <label>Observações: <input type="text" id="m-obs"></label>
-        <button type="submit" class="btn">Registrar Movimentação</button>
+      <h2>Nova Movimentação</h2>
+
+      <form id="form-movimentacao" onsubmit="event.preventDefault(); registrarMovimentacao();">
+        <label for="mov-codigo">Código do Produto:</label>
+        <input type="text" id="mov-codigo" required>
+
+        <label for="mov-tipo">Tipo de Movimentação:</label>
+        <select id="mov-tipo" required>
+          <option value="entrada">Entrada</option>
+          <option value="saida">Saída</option>
+        </select>
+
+        <label for="mov-quantidade">Quantidade:</label>
+        <input type="number" id="mov-quantidade" required min="1">
+
+        <label for="mov-origem">Origem/Destino:</label>
+        <input type="text" id="mov-origem" placeholder="Ex.: Fornecedor, Cliente... (opcional)">
+
+        <label for="mov-observacoes">Observações:</label>
+        <input type="text" id="mov-observacoes" placeholder="Ex.: Nota Fiscal, motivo... (opcional)">
+
+        <label for="mov-senha">Senha de Acesso:</label>
+        <input type="password" id="mov-senha" placeholder="Digite a senha" required>
+
+        <div class="actions">
+          <button type="button" class="btn" onclick="registrarMovimentacao()">Registrar Movimentação</button>
+        </div>
       </form>
-      <p id="msg-move" class="muted"></p>
     </section>
   </main>
 
   <footer>
-    <p class="muted">Protótipo de controle de estoque</p>
+    <p class="muted">Projeto extensionista • Controle de estoque</p>
   </footer>
 
   <script src="script.js"></script>
