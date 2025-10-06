@@ -135,8 +135,9 @@ nav a:hover {
 button {
   display: inline-block;
   padding: 0.55rem 0.95rem;
-  background: var(--navy-500);
-  color: #fff;
+  background: linear-gradient(180deg, var(--orange-600), var(--orange-500));
+  color: white;
+  border: none;
   border: none;
   border-radius: 8px;
   font-weight: 600;
@@ -276,7 +277,7 @@ table td small {
 .search-bar {
   display: flex;
   gap: 0.6rem;
-  align-items: center;
+  align-items: end;
   margin-top: 0.6rem;
   flex-wrap: wrap;
 }

@@ -3,13 +3,13 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Registrar Movimentação</title>
+  <title>Movimentação de Estoque</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
   <header>
-    <h1>Registrar Movimentação</h1>
+    <h1>Movimentação de Estoque</h1>
   </header>
 
   <nav>
@@ -22,32 +22,34 @@
 
   <main class="container">
     <section class="card">
-      <h2>Nova Movimentação</h2>
+      <h2>Registrar Movimentação</h2>
 
       <form id="form-movimentacao" onsubmit="event.preventDefault(); registrarMovimentacao();">
-        <label for="mov-codigo">Código do Produto:</label>
-        <input type="text" id="mov-codigo" required>
+        <!-- ✅ Senha movida para o topo -->
+        <label for="senha-movimentacao">Senha:</label>
+        <input type="password" id="senha-movimentacao" required>
 
-        <label for="mov-tipo">Tipo de Movimentação:</label>
-        <select id="mov-tipo" required>
-          <option value="entrada">Entrada</option>
-          <option value="saida">Saída</option>
+        <!-- ✅ Campo agora aceita código OU nome -->
+        <label for="codigo-movimentacao">Código ou Nome do Produto:</label>
+        <input type="text" id="codigo-movimentacao" required placeholder="Digite o código ou nome do produto">
+
+        <label for="tipo">Tipo:</label>
+        <select id="tipo" required>
+          <option value="Entrada">Entrada</option>
+          <option value="Saída">Saída</option>
         </select>
 
-        <label for="mov-quantidade">Quantidade:</label>
-        <input type="number" id="mov-quantidade" required min="1">
+        <label for="quantidade-movimentacao">Quantidade:</label>
+        <input type="number" id="quantidade-movimentacao" required min="1">
 
-        <label for="mov-origem">Origem/Destino:</label>
-        <input type="text" id="mov-origem" placeholder="Ex.: Fornecedor, Cliente... (opcional)">
+        <label for="origem-destino">Origem/Destino:</label>
+        <input type="text" id="origem-destino">
 
-        <label for="mov-observacoes">Observações:</label>
-        <input type="text" id="mov-observacoes" placeholder="Ex.: Nota Fiscal, motivo... (opcional)">
-
-        <label for="mov-senha">Senha de Acesso:</label>
-        <input type="password" id="mov-senha" placeholder="Digite a senha" required>
+        <label for="observacoes">Observações:</label>
+        <input type="text" id="observacoes">
 
         <div class="actions">
-          <button type="button" class="btn" onclick="registrarMovimentacao()">Registrar Movimentação</button>
+          <button type="button" class="btn" onclick="registrarMovimentacao()">Registrar</button>
         </div>
       </form>
     </section>
@@ -58,6 +60,25 @@
   </footer>
 
   <script src="script.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const input = document.getElementById('codigo-movimentacao');
+      if (!input) return;
+
+      input.addEventListener('input', () => {
+        const termo = normalizeText(input.value);
+        if (!termo) return;
+
+        const lista = Array.isArray(window.produtosCache) ? window.produtosCache : [];
+        const encontrado = lista.find(p => {
+          const codNorm = normalizeText(p['Código'] || "");
+          const nomeNorm = normalizeText(p['Produto'] || "");
+          return codNorm === termo || nomeNorm.includes(termo);
+        });
+      });
+    });
+  </script>
+
 </body>
 
 </html>
