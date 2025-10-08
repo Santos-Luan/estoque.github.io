@@ -247,6 +247,22 @@ tbody td {
 tbody tr:nth-child(even) td {
   background: #fbfdff;
 }
+/* Hover em todas as linhas da tabela */
+tbody tr:hover td {
+  background: #ff7a18 !important; /* Azul claro para todas as linhas */
+  cursor: pointer;
+  color: white;
+}
+
+/* ---------- HOVER GLOBAL NAS TABELAS ---------- */
+table tbody tr {
+  cursor: pointer;
+}
+
+table tbody tr:hover {
+  background-color: #ff7a18; /* Azul bem claro para destaque */
+  box-shadow: inset 0 0 0 9999px rgba(0, 0, 0, 0.02);
+}
 
 /* smaller table text */
 table td small {
