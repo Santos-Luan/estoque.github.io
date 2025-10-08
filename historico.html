@@ -5,31 +5,6 @@
   <meta charset="utf-8">
   <title>Histórico de Movimentações</title>
   <link rel="stylesheet" href="styles.css">
-  <style>
-    .search-bar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      align-items: center;
-      margin-bottom: 15px;
-    }
-
-    .search-bar label {
-      margin-right: 5px;
-      font-weight: bold;
-    }
-
-    .search-bar input[type="text"],
-    .search-bar input[type="date"] {
-      padding: 5px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-
-    .search-bar button {
-      padding: 6px 12px;
-    }
-  </style>
 </head>
 
 <body>
@@ -47,30 +22,31 @@
 
   <main class="container">
     <section class="card">
-      <h2>Últimos Registros</h2>
+      <h2>Movimentações</h2>
 
       <div class="search-bar">
-        <input type="text" id="search-historico" placeholder="Pesquisar por código ou nome...">
+        <input type="text" id="search-historico" placeholder="Buscar por código, produto, origem, tipo..." />
 
-        <label for="f-data-inicio">Data inicial:</label>
-        <input type="date" id="f-data-inicio">
+        <div class="form-row" style="flex-wrap: nowrap; gap: 0.6rem;">
+          <div class="col">
+            <label for="f-data-inicio">Data Inicial</label>
+            <input type="date" id="f-data-inicio" />
+          </div>
+          <div class="col">
+            <label for="f-data-fim">Data Final</label>
+            <input type="date" id="f-data-fim" />
+          </div>
+        </div>
 
-        <label for="f-data-fim">Data final:</label>
-        <input type="date" id="f-data-fim">
-
-      </div>
-
-      <div class="actions">
-        <button id="btn-filter-date" class="btn-search">Filtrar</button>
-        <button id="btn-clear-historico" class="link-reset">Limpar</button>
-        <button id="btn-refresh-mov" class="btn">Atualizar histórico</button>
+        <button class="btn-search" id="btn-filter-date">Filtrar</button>
+        <button class="link-reset" id="btn-clear-historico">Limpar</button>
       </div>
 
       <div class="table-wrap">
         <table id="mov-table">
           <thead>
             <tr>
-              <th>Timestamp</th>
+              <th>Data/Hora</th>
               <th>Código</th>
               <th>Produto</th>
               <th>Tipo</th>
@@ -82,7 +58,6 @@
           <tbody></tbody>
         </table>
       </div>
-      <p id="msg-mov" class="message"></p>
     </section>
   </main>
 

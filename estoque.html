@@ -3,13 +3,13 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Estoque Atual</title>
+  <title>Estoque</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
   <header>
-    <h1>Estoque Atual</h1>
+    <h1>Estoque</h1>
   </header>
 
   <nav>
@@ -25,22 +25,17 @@
       <h2>Lista de Produtos</h2>
 
       <div class="search-bar">
-        <input type="text" id="search-input" placeholder="Pesquisar por código ou nome...">
-        <button id="btn-search" class="btn-search">Pesquisar</button>
-        <button id="btn-clear" class="link-reset">Limpar</button>
-      </div>
-
-      <div class="actions">
-        <input type="password" id="senha-excluir" placeholder="Senha para excluir produtos">
-        <button id="btn-delete" class="btn orange">Excluir Selecionados</button>
-        <button id="btn-refresh" class="btn">Atualizar lista</button>
+        <input type="text" id="search-input" placeholder="Buscar por código ou nome">
+        <button class="btn" id="btn-search">Buscar</button>
+        <button class="link-reset" id="btn-clear">Limpar</button>
+        <button class="btn secondary" id="btn-refresh">Atualizar</button>
       </div>
 
       <div class="table-wrap">
         <table id="products-table">
           <thead>
             <tr>
-              <th class="table-checkbox">Sel</th>
+              <th></th>
               <th>Código</th>
               <th>Produto</th>
               <th>Quantidade</th>
@@ -52,7 +47,11 @@
           <tbody></tbody>
         </table>
       </div>
-      <p id="msg-list" class="message"></p>
+
+      <div class="actions">
+        <input type="password" id="senha-excluir" placeholder="Senha">
+        <button class="btn" id="btn-delete">Excluir Selecionados</button>
+      </div>
     </section>
   </main>
 

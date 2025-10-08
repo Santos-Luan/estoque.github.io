@@ -1,7 +1,9 @@
 const API_URL =
   "https://script.google.com/macros/s/AKfycbxnb9kKyleiV5cYlTN8xtp7OZxYmMy38eP4F6j8cR7P-Qvd6mHhn1cakn7OOxQPubaU/exec";
 
-// utilitários
+// =========================
+// UTILITÁRIOS
+// =========================
 function safe(v) {
   return v === undefined || v === null ? "" : v;
 }
@@ -21,7 +23,6 @@ function getField(obj, ...names) {
 // formata timestamps de várias formas sem aplicar deslocamento indevido
 function formatTimestamp(ts) {
   if (ts === undefined || ts === null || ts === "") return "";
-  // Date object
   if (ts instanceof Date) return ts.toLocaleString("pt-BR");
 
   const s = String(ts).trim();
@@ -51,7 +52,6 @@ function formatTimestamp(ts) {
   const dateIso = new Date(s);
   if (!isNaN(dateIso.getTime())) return dateIso.toLocaleString("pt-BR");
 
-  // fallback: exibir como veio
   return s;
 }
 
@@ -61,8 +61,7 @@ function formatTimestamp(ts) {
 async function postData(params) {
   const body = new URLSearchParams();
   for (const k in params)
-    if (Object.prototype.hasOwnProperty.call(params, k))
-      body.append(k, params[k]);
+    if (Object.prototype.hasOwnProperty.call(params, k)) body.append(k, params[k]);
   const res = await fetch(API_URL, { method: "POST", body: body });
   return await res.json();
 }
@@ -81,7 +80,8 @@ let produtosCache = [];
 let movimentosCache = [];
 
 // =========================
-// UTILIDADES DOM (compatibilidade com diferentes HTMLs)
+// DOM helpers
+// =========================
 function getInputValue(...ids) {
   for (const id of ids) {
     if (!id) continue;
@@ -98,7 +98,8 @@ function setInputValue(value, ...ids) {
 }
 
 // =========================
-// NORMALIZAÇÃO (remoção de acentos / lowercase)
+// NORMALIZAÇÃO
+// =========================
 function normalizeText(str) {
   if (!str) return "";
   return str
@@ -112,7 +113,6 @@ function normalizeText(str) {
 // PRODUTOS
 // =========================
 function gerarCodigoProduto() {
-  // Gera um código simples incremental tipo P001, P002...
   const base = (produtosCache || [])
     .map((p) =>
       String(getField(p, "Código", "codigo", "Codigo") || "").replace(/\D/g, "")
@@ -140,7 +140,6 @@ async function cadastrarProduto() {
     return;
   }
 
-  // Gera automaticamente se campo estiver vazio
   if (!codigo) {
     codigo = gerarCodigoProduto();
   }
@@ -175,10 +174,7 @@ async function carregarProdutos() {
   try {
     const res = await getData({ action: "listProducts" });
     produtosCache =
-      res.result === "success" && Array.isArray(res.products)
-        ? res.products
-        : [];
-    // expõe globalmente também (compatibilidade com eventuais scripts inline)
+      res.result === "success" && Array.isArray(res.products) ? res.products : [];
     try {
       window.produtosCache = produtosCache;
     } catch (e) {}
@@ -219,13 +215,13 @@ function renderizarProdutos(lista) {
 
     const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td><input type="checkbox" class="chk-del" data-codigo="${codigo}"></td>
-      <td>${codigo}</td>
-      <td>${nome}</td>
-      <td>${qtd}</td>
-      <td>${preco}</td>
-      <td>${ultima}</td>
-      <td>${minimo}</td>
+      <td data-label="Sel."><input type="checkbox" class="chk-del" data-codigo="${codigo}"></td>
+      <td data-label="Código">${codigo}</td>
+      <td data-label="Produto">${nome}</td>
+      <td data-label="Quantidade">${qtd}</td>
+      <td data-label="Preço">${preco}</td>
+      <td data-label="Última Atualização">${ultima}</td>
+      <td data-label="Mínimo">${minimo}</td>
     `;
     tb.appendChild(tr);
   });
@@ -248,12 +244,7 @@ async function excluirProdutos() {
     return;
   }
 
-  if (
-    !confirm(
-      `Confirma exclusão de ${checks.length} item(ns)? Esta ação é irreversível.`
-    )
-  )
-    return;
+  if (!confirm(`Confirma exclusão de ${checks.length} item(ns)? Esta ação é irreversível.`)) return;
 
   for (const c of checks) {
     const codigo = c.dataset.codigo;
@@ -277,8 +268,8 @@ async function excluirProdutos() {
 
 // =========================
 // MOVIMENTAÇÃO
+// =========================
 async function registrarMovimentacao() {
-  // tentamos vários ids para compatibilidade com seus HTMLs
   let codigo = getInputValue("mov-codigo", "codigo-movimentacao", "codigo");
   const tipoRaw = getInputValue("mov-tipo", "tipo");
   const quantidadeRaw = getInputValue(
@@ -295,32 +286,21 @@ async function registrarMovimentacao() {
     return;
   }
 
-  // mapear tipo para valores aceitos pelo servidor (entrada / saida)
   const tipoNorm = normalizeText(tipoRaw || "");
   let type = "";
   if (tipoNorm.includes("entr")) type = "entrada";
-  else if (
-    tipoNorm.includes("said") ||
-    tipoNorm.includes("saID") ||
-    tipoNorm.includes("saida")
-  )
-    type = "saida";
-  else type = tipoNorm; // fallback (já lowercase sem acento)
+  else if (tipoNorm.includes("said") || tipoNorm.includes("saida")) type = "saida";
+  else type = tipoNorm;
 
-  // permite buscar por nome no campo código
   if (codigo && produtosCache && produtosCache.length > 0) {
     const termo = normalizeText(codigo);
     const encontrado = produtosCache.find((p) => {
       const c = normalizeText(getField(p, "Código", "codigo", "Codigo") || "");
-      const nome = normalizeText(
-        getField(p, "Produto", "produto", "Produto") || ""
-      );
+      const nome = normalizeText(getField(p, "Produto", "produto", "Produto") || "");
       return c === termo || nome.includes(termo);
     });
     if (encontrado) {
-      codigo = String(
-        getField(encontrado, "Código", "codigo", "Codigo") || codigo
-      );
+      codigo = String(getField(encontrado, "Código", "codigo", "Codigo") || codigo);
     }
   }
 
@@ -348,7 +328,6 @@ async function registrarMovimentacao() {
       carregarProdutos();
       carregarHistorico();
     } else {
-      // repassa a mensagem do servidor
       alert("Erro: " + res.message);
     }
   } catch (err) {
@@ -359,6 +338,7 @@ async function registrarMovimentacao() {
 
 // =========================
 // HISTÓRICO
+// =========================
 async function carregarHistorico() {
   const tb = document.querySelector("#mov-table tbody");
   if (tb) tb.innerHTML = "<tr><td colspan='7'>Carregando...</td></tr>";
@@ -387,9 +367,7 @@ function renderizarMovimentos(lista) {
   }
 
   lista.forEach((m) => {
-    const ts = formatTimestamp(
-      getField(m, "Timestamp", "timestamp", "Timestamp")
-    );
+    const ts = formatTimestamp(getField(m, "Timestamp", "timestamp", "Timestamp"));
     const codigo = safe(getField(m, "Código", "codigo", "Codigo"));
     const produto = safe(getField(m, "Produto", "produto", "Produto"));
     const tipo = safe(getField(m, "Tipo", "tipo", "Tipo"));
@@ -399,13 +377,13 @@ function renderizarMovimentos(lista) {
 
     const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td>${ts}</td>
-      <td>${codigo}</td>
-      <td>${produto}</td>
-      <td>${tipo}</td>
-      <td>${qtd}</td>
-      <td>${origem}</td>
-      <td>${obs}</td>
+      <td data-label="Data/Hora">${ts}</td>
+      <td data-label="Código">${codigo}</td>
+      <td data-label="Produto">${produto}</td>
+      <td data-label="Tipo">${tipo}</td>
+      <td data-label="Quantidade">${qtd}</td>
+      <td data-label="Origem/Destino">${origem}</td>
+      <td data-label="Observações">${obs}</td>
     `;
     tb.appendChild(tr);
   });
@@ -413,6 +391,7 @@ function renderizarMovimentos(lista) {
 
 // =========================
 // FILTROS DO HISTÓRICO
+// =========================
 function applyHistoryFilter() {
   const searchEl = document.getElementById("search-historico");
   const startEl = document.getElementById("f-data-inicio");
@@ -468,19 +447,17 @@ function applyHistoryFilter() {
 }
 
 // =========================
-// INICIALIZAÇÃO / BIND EVENTS
+// INICIALIZAÇÃO
+// =========================
 document.addEventListener("DOMContentLoaded", async () => {
-  // Carregar listagens
   await carregarProdutos();
   await carregarHistorico();
 
-  // Preenche campo #codigo se existir (produtos.html)
   const codigoInput = document.getElementById("codigo");
   if (codigoInput && codigoInput.readOnly) {
     codigoInput.value = gerarCodigoProduto();
   }
 
-  // Estoque: botões
   const btnRefresh = document.getElementById("btn-refresh");
   if (btnRefresh) btnRefresh.addEventListener("click", carregarProdutos);
 
@@ -514,7 +491,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       carregarProdutos();
     });
 
-  // Histórico: bind filtros
   const btnFilterDate = document.getElementById("btn-filter-date");
   if (btnFilterDate)
     btnFilterDate.addEventListener("click", applyHistoryFilter);
@@ -522,31 +498,21 @@ document.addEventListener("DOMContentLoaded", async () => {
   const btnClearHist = document.getElementById("btn-clear-historico");
   if (btnClearHist)
     btnClearHist.addEventListener("click", () => {
-      const si = document.getElementById("search-historico");
+      const si = document.getElementById("f-data-inicio");
+      const sf = document.getElementById("f-data-fim");
+      const sh = document.getElementById("search-historico");
       if (si) si.value = "";
-      const s1 = document.getElementById("f-data-inicio");
-      if (s1) s1.value = "";
-      const s2 = document.getElementById("f-data-fim");
-      if (s2) s2.value = "";
+      if (sf) sf.value = "";
+      if (sh) sh.value = "";
       renderizarMovimentos(movimentosCache);
     });
 
   const btnRefreshMov = document.getElementById("btn-refresh-mov");
   if (btnRefreshMov) btnRefreshMov.addEventListener("click", carregarHistorico);
 
-  // opção: permitir Enter no campo de pesquisa do histórico
-  const searchHistEl = document.getElementById("search-historico");
-  if (searchHistEl) {
-    searchHistEl.addEventListener("keydown", (ev) => {
-      if (ev.key === "Enter") {
-        ev.preventDefault();
-        applyHistoryFilter();
-      }
+  const searchHist = document.getElementById("search-historico");
+  if (searchHist)
+    searchHist.addEventListener("input", () => {
+      applyHistoryFilter();
     });
-  }
-
-  // compatibilidade: preencher #codigo-movimentacao quando usuário digitar nome (script inline do HTML pode usar window.produtosCache)
-  try {
-    window.produtosCache = produtosCache;
-  } catch (e) {}
 });

@@ -25,11 +25,9 @@
       <h2>Registrar Movimentação</h2>
 
       <form id="form-movimentacao" onsubmit="event.preventDefault(); registrarMovimentacao();">
-        <!-- ✅ Senha movida para o topo -->
         <label for="senha-movimentacao">Senha:</label>
         <input type="password" id="senha-movimentacao" required>
 
-        <!-- ✅ Campo agora aceita código OU nome -->
         <label for="codigo-movimentacao">Código ou Nome do Produto:</label>
         <input type="text" id="codigo-movimentacao" required placeholder="Digite o código ou nome do produto">
 
@@ -60,25 +58,6 @@
   </footer>
 
   <script src="script.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const input = document.getElementById('codigo-movimentacao');
-      if (!input) return;
-
-      input.addEventListener('input', () => {
-        const termo = normalizeText(input.value);
-        if (!termo) return;
-
-        const lista = Array.isArray(window.produtosCache) ? window.produtosCache : [];
-        const encontrado = lista.find(p => {
-          const codNorm = normalizeText(p['Código'] || "");
-          const nomeNorm = normalizeText(p['Produto'] || "");
-          return codNorm === termo || nomeNorm.includes(termo);
-        });
-      });
-    });
-  </script>
-
 </body>
 
 </html>

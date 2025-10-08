@@ -25,13 +25,11 @@
       <h2>Novo Produto</h2>
 
       <form id="form-produto" onsubmit="event.preventDefault(); cadastrarProduto();">
-        <!-- ✅ Senha movida para o topo -->
         <label for="senha-produto">Senha:</label>
         <input type="password" id="senha-produto" required>
 
-        <!-- ✅ Código agora gerado automaticamente -->
         <label for="codigo">Código:</label>
-        <input type="text" id="codigo" required readonly placeholder="Código gerado automaticamente">
+        <input type="text" id="codigo" readonly>
 
         <label for="produto">Produto:</label>
         <input type="text" id="produto" required>
